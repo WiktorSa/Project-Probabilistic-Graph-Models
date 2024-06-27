@@ -1,0 +1,182 @@
+schema: '2.0'
+stages:
+  split:
+    cmd: python split.py
+    deps:
+    - path: data/input.csv
+      hash: md5
+      md5: 77834ddffb7c87268e8c1ed08811b15d
+      size: 227981
+    - path: split.py
+      hash: md5
+      md5: 9fbb36ea1aea679947836082520461d1
+      size: 665
+    outs:
+    - path: data/split_test.csv
+      hash: md5
+      md5: 4eac1754306c3346f9f39a46ab6960d2
+      size: 34372
+    - path: data/split_train.csv
+      hash: md5
+      md5: 765328ef3b11073c8f24ebb6792e89d5
+      size: 159764
+    - path: data/split_val.csv
+      hash: md5
+      md5: 9a1d5a6eec2370cb8b0e905d5371bc7a
+      size: 34041
+  preprocess:
+    cmd: python preprocess.py
+    deps:
+    - path: data/split_test.csv
+      hash: md5
+      md5: 4eac1754306c3346f9f39a46ab6960d2
+      size: 34372
+    - path: data/split_train.csv
+      hash: md5
+      md5: 765328ef3b11073c8f24ebb6792e89d5
+      size: 159764
+    - path: data/split_val.csv
+      hash: md5
+      md5: 9a1d5a6eec2370cb8b0e905d5371bc7a
+      size: 34041
+    - path: preprocess.py
+      hash: md5
+      md5: fb04bdfa9c2b10526af243f6edef6054
+      size: 3637
+    - path: split.py
+      hash: md5
+      md5: 9fbb36ea1aea679947836082520461d1
+      size: 665
+    outs:
+    - path: data/preprocessed_test.csv
+      hash: md5
+      md5: 124f74d12f08995fd659fd08f544c766
+      size: 10551
+    - path: data/preprocessed_train.csv
+      hash: md5
+      md5: 6033b5ad114f7fe013c0c61df89fc12a
+      size: 48829
+    - path: data/preprocessed_val.csv
+      hash: md5
+      md5: 7f895de1641a622d0974cf46c0baacd0
+      size: 10554
+  train@gaussian_processes:
+    cmd: "mkdir -p results && python -m ipykernel install --user --name myenv --display-name
+      \"Python (myenv)\" && python -m jupyter nbconvert --ExecutePreprocessor.kernel_name=myenv
+      --execute model_gaussian_processes.ipynb --to html --output results/gaussian_processes.html\n"
+    deps:
+    - path: data/preprocessed_test.csv
+      hash: md5
+      md5: 124f74d12f08995fd659fd08f544c766
+      size: 10551
+    - path: data/preprocessed_train.csv
+      hash: md5
+      md5: 6033b5ad114f7fe013c0c61df89fc12a
+      size: 48829
+    - path: data/preprocessed_val.csv
+      hash: md5
+      md5: 7f895de1641a622d0974cf46c0baacd0
+      size: 10554
+    - path: model_gaussian_processes.ipynb
+      hash: md5
+      md5: a43f4d41ddf25e955601cc396d82834e
+      size: 21931
+    - path: preprocess.py
+      hash: md5
+      md5: fb04bdfa9c2b10526af243f6edef6054
+      size: 3637
+    - path: split.py
+      hash: md5
+      md5: 9fbb36ea1aea679947836082520461d1
+      size: 665
+    outs:
+    - path: results/gaussian_processes.html
+      hash: md5
+      md5: b852bd7d179c179b7779e865539e242f
+      size: 4493209
+  train@bayesian_neural_networks:
+    cmd: "mkdir -p results && python -m ipykernel install --user --name myenv --display-name
+      \"Python (myenv)\" && python -m jupyter nbconvert --ExecutePreprocessor.kernel_name=myenv
+      --execute model_bayesian_neural_networks.ipynb --to html --output results/bayesian_neural_networks.html\n"
+    deps:
+    - path: data/preprocessed_test.csv
+      hash: md5
+      md5: 124f74d12f08995fd659fd08f544c766
+      size: 10551
+    - path: data/preprocessed_train.csv
+      hash: md5
+      md5: 6033b5ad114f7fe013c0c61df89fc12a
+      size: 48829
+    - path: data/preprocessed_val.csv
+      hash: md5
+      md5: 7f895de1641a622d0974cf46c0baacd0
+      size: 10554
+    - path: model_bayesian_neural_networks.ipynb
+      hash: md5
+      md5: 8116cfc9c9038200040cf8141941fbf3
+      size: 41386
+    - path: preprocess.py
+      hash: md5
+      md5: fb04bdfa9c2b10526af243f6edef6054
+      size: 3637
+    - path: split.py
+      hash: md5
+      md5: 9fbb36ea1aea679947836082520461d1
+      size: 665
+    outs:
+    - path: results/bayesian_neural_networks.html
+      hash: md5
+      md5: 094d95eca3d4ad67bbbf2ae936927868
+      size: 1980029
+  train@naive_bayes:
+    cmd: "mkdir -p results && python -m ipykernel install --user --name myenv --display-name
+      \"Python (myenv)\" && python -m jupyter nbconvert --ExecutePreprocessor.kernel_name=myenv
+      --execute model_naive_bayes.ipynb --to html --output results/naive_bayes.html\n"
+    deps:
+    - path: data/preprocessed_test.csv
+      hash: md5
+      md5: 124f74d12f08995fd659fd08f544c766
+      size: 10551
+    - path: data/preprocessed_train.csv
+      hash: md5
+      md5: 6033b5ad114f7fe013c0c61df89fc12a
+      size: 48829
+    - path: data/preprocessed_val.csv
+      hash: md5
+      md5: 7f895de1641a622d0974cf46c0baacd0
+      size: 10554
+    - path: model_naive_bayes.ipynb
+      hash: md5
+      md5: a04f1cf785079afe6c390f6b391271a9
+      size: 15538
+    - path: preprocess.py
+      hash: md5
+      md5: fb04bdfa9c2b10526af243f6edef6054
+      size: 3637
+    - path: split.py
+      hash: md5
+      md5: 9fbb36ea1aea679947836082520461d1
+      size: 665
+    outs:
+    - path: results/naive_bayes.html
+      hash: md5
+      md5: e98e768663616e686087667ae1c1ead7
+      size: 491189
+  eda:
+    cmd: mkdir -p results && python -m ipykernel install --user --name myenv --display-name
+      "Python (myenv)" && python -m jupyter nbconvert --ExecutePreprocessor.kernel_name=myenv
+      --execute eda.ipynb --to html --output results/eda.html
+    deps:
+    - path: data/input.csv
+      hash: md5
+      md5: 77834ddffb7c87268e8c1ed08811b15d
+      size: 227981
+    - path: eda.ipynb
+      hash: md5
+      md5: 13da28736e367dc1617ab30a1fe1b8bf
+      size: 8496
+    outs:
+    - path: results/eda.html
+      hash: md5
+      md5: 62ef662ed0c68279098e2775405e148d
+      size: 6506584

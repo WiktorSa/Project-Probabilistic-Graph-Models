@@ -1,0 +1,57 @@
+stages:
+  eda:
+    cmd: mkdir -p results &&
+        python -m ipykernel install --user --name myenv --display-name "Python (myenv)" &&
+        python -m jupyter nbconvert --ExecutePreprocessor.kernel_name=myenv
+        --execute eda.ipynb --to html --output results/eda.html
+    deps:
+        - eda.ipynb
+        - data/input.csv
+    outs:
+      - results/eda.html:
+          cache: false
+
+  split:
+    cmd: python split.py
+    deps:
+      - split.py
+      - data/input.csv
+    outs:
+      - data/split_train.csv
+      - data/split_val.csv
+      - data/split_test.csv
+
+  preprocess:
+    cmd: python preprocess.py
+    deps:
+      - split.py
+      - preprocess.py
+      - data/split_train.csv
+      - data/split_val.csv
+      - data/split_test.csv
+    outs:
+      - data/preprocessed_train.csv
+      - data/preprocessed_val.csv
+      - data/preprocessed_test.csv
+
+  train:
+    foreach:
+      - gaussian_processes
+      - bayesian_neural_networks
+      - naive_bayes
+    do:
+      cmd: >
+        mkdir -p results &&
+        python -m ipykernel install --user --name myenv --display-name "Python (myenv)" &&
+        python -m jupyter nbconvert --ExecutePreprocessor.kernel_name=myenv
+        --execute model_${item}.ipynb --to html --output results/${item}.html
+      deps:
+        - split.py
+        - preprocess.py
+        - model_${item}.ipynb
+        - data/preprocessed_train.csv
+        - data/preprocessed_val.csv
+        - data/preprocessed_test.csv
+      outs:
+        - results/${item}.html:
+            cache: false
