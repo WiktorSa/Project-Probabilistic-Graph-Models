@@ -1,8 +1,8 @@
-# Project-Probabilistic-Graphical-Models
+# Project-Probabilistic-Graph-Models
 
 Whole project is in Polish language.
 
-# Projekt Probabilistyczne Metody Grafowe - Predykcja poziomów otyłości
+# Projekt Probabilistyczne Modele Grafowe - Predykcja poziomów otyłości
 
 AA | Wiktor Sadowy | Kamil Matejuk
 
