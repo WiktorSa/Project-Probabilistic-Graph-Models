@@ -1,4 +1,4 @@
-# Project-Probabilistic-Graph-Models
+# Project-Probabilistic-Graphical-Models
 
 Whole project is in Polish language.
 
